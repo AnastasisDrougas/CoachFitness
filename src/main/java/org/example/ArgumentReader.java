@@ -6,7 +6,7 @@ public class ArgumentReader {
     ArrayList<String> fileList = new ArrayList<>();
     ArrayList<String> specificsList = new ArrayList<>();
 
-    public void seperator(String[] args){
+    public void separator(String[] args){
         for(int i=0; i< args.length; i++){
             if(args[i].equals("-w") || args[i].equals("-s") || args[i].equals("-a")){
                 specificsList.add(args[i]);
@@ -15,7 +15,6 @@ public class ArgumentReader {
                 fileList.add(args[i]);
             }
         }
-        return;
     }
 
     public void fileNamesList(){
@@ -23,7 +22,6 @@ public class ArgumentReader {
         for(String value : fileList){
             xml.fileReader(value);
         }
-        return;
     }
 
     //sex, age, weight

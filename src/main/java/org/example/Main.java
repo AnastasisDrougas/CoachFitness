@@ -6,10 +6,9 @@ public class Main {
 
         if (args.length == 0) {
             System.out.println("No arguments given.");
-            return;
         } else {
             ArgumentReader arg = new ArgumentReader();
-            arg.seperator(args);
+            arg.separator(args);
         }
 
     }
