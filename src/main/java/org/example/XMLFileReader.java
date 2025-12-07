@@ -19,18 +19,19 @@ public class XMLFileReader {
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(new FileInputStream(filename));
-            NodeList activityList = doc.getElementsByTagName("Activity");
-            for (int i = 0; i < activityList.getLength(); i++) {
-                Element activityElement = (Element) activityList.item(i);
-                String sport = activityElement.getAttribute("Sport");
-                System.out.println("Sport: " + sport);
-                NodeList trackPoints = activityElement.getElementsByTagName("Trackpoint");
-                for (int j = 0; j < trackPoints.getLength(); j++) {
-                    Element e = (Element) trackPoints.item(j);
-                    String distance = getNodeValue(e.getElementsByTagName("DistanceMeters"));
-                    System.out.println("Distance: " + distance);
-                }
-            }
+            Activities list = new Activities(doc.getElementsByTagName("Activity"));
+//            NodeList activityList = doc.getElementsByTagName("Activity");
+//            for (int i = 0; i < activityList.getLength(); i++) {
+//                Element activityElement = (Element) activityList.item(i);
+//                String sport = activityElement.getAttribute("Sport");
+//                System.out.println("Sport: " + sport);
+//                NodeList trackPoints = activityElement.getElementsByTagName("Trackpoint");
+//                for (int j = 0; j < trackPoints.getLength(); j++) {
+//                    Element e = (Element) trackPoints.item(j);
+//                    String distance = getNodeValue(e.getElementsByTagName("DistanceMeters"));
+//                    System.out.println("Distance: " + distance);
+//                }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

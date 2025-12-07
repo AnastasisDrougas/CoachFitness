@@ -9,22 +9,12 @@ import java.util.ArrayList;
 public class Activity {
     private ArrayList<Laps> laps = new ArrayList<>();
     private String sport;
-    private Node node;
 
     public Activity(Node node) {
-        this.node = node;
         Element activityElement = (Element) node;
         sport = activityElement.getAttribute("Sport");
-        ArrayListConverter(activityElement.getElementsByTagName("Laps"));
+        ArrayListConverter<Laps> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Laps"),Lapnode -> new Laps(Lapnode));
+        laps = converter.getList();
     }
-
-    private void ArrayListConverter(NodeList nodes){
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node node = nodes.item(i);
-            Activity activity = new Activity(node);
-            activities.add(activity);
-        }
-    }
-
 
 }
