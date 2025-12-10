@@ -24,6 +24,7 @@ public class ArgumentReader {
         }
     }
 
+    //einai height nmz k oxi age
     //sex, age, weight
     public void specifics(){
         //TODO
