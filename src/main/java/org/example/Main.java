@@ -1,7 +1,7 @@
 package org.example;
 
 public class Main {
-    //Giga Nigga 4
+
     public static void main(String[] args) {
 
         if (args.length == 0) {
