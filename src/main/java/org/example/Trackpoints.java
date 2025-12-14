@@ -129,6 +129,10 @@ public class Trackpoints {
 
     }
 
+    public int getHeartRate() {
+        return heartRate;
+    }
+
     public double getDistanceMeters() {
         return distanceMeters;
     }

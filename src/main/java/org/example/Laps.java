@@ -27,6 +27,10 @@ public class Laps {
 
     }
 
+    public ArrayList<Tracks> getTracks() {
+        return tracks;
+    }
+
     public double getDistanceMeters() {
         return distanceMeters;
     }
