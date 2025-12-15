@@ -15,26 +15,16 @@ public class XMLFileReader {
 
     public XMLFileReader() {}
 
-    public void fileReader(String filename){
+    public Activities fileReader(String filename){
+        Activities list = null;
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(new FileInputStream(filename));
-            Activities list = new Activities(doc.getElementsByTagName("Activity"));
-//            NodeList activityList = doc.getElementsByTagName("Activity");
-//            for (int i = 0; i < activityList.getLength(); i++) {
-//                Element activityElement = (Element) activityList.item(i);
-//                String sport = activityElement.getAttribute("Sport");
-//                System.out.println("Sport: " + sport);
-//                NodeList trackPoints = activityElement.getElementsByTagName("Trackpoint");
-//                for (int j = 0; j < trackPoints.getLength(); j++) {
-//                    Element e = (Element) trackPoints.item(j);
-//                    String distance = getNodeValue(e.getElementsByTagName("DistanceMeters"));
-//                    System.out.println("Distance: " + distance);
-//                }
-//            }
+            list = new Activities(doc.getElementsByTagName("Activity"));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return list;
     }
 
     public static String getNodeValue(NodeList n) {

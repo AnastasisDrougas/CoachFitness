@@ -36,7 +36,6 @@ public class Activity {
         laps = converter.getList();
 
         initiator();
-        System.out.println("Activity");
     }
 
     private void initiator(){

@@ -10,7 +10,7 @@ public class MinPaceCalculator implements Calculator<Double>{
                 for (Trackpoints trackpoints : tracks.getTrackpoints()) {
                     double speed = trackpoints.getSpeed();
                     if (speed > 0) {
-                        double pace = 60 / speed;
+                        double pace = 1000 / (speed * 60);
                         if (pace < min) {
                             min = pace;
                         }

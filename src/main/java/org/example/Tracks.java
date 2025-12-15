@@ -6,10 +6,8 @@ import org.w3c.dom.Node;
 import java.util.ArrayList;
 
 public class Tracks {
-    ArrayList<Trackpoints> trackpoints = new ArrayList<>();
-    private double distanceSum = 0;
-    private double avgHeartRate = 0;
-    private double avgSpeed = 0;
+    private ArrayList<Trackpoints> trackpoints = new ArrayList<>();
+
 
 
 

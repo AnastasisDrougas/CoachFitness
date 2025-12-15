@@ -7,7 +7,7 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 
 public class Laps {
-    ArrayList<Tracks> tracks = new ArrayList<>();
+    private ArrayList<Tracks> tracks = new ArrayList<>();
     private double distanceMeters;
     private double timeInSeconds;
 

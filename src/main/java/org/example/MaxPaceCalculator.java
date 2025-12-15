@@ -8,8 +8,8 @@ public class MaxPaceCalculator implements Calculator<Double> {
             for (Tracks tracks : lap.getTracks()) {
                 for (Trackpoints trackpoints : tracks.getTrackpoints()) {
                     double speed = trackpoints.getSpeed();
-                    if (speed > 0.1) {
-                        double pace = 60 / speed;
+                    if (speed > 0.5) {
+                        double pace = 1000 / (speed * 60);
                         if (pace > max) {
                             max = pace;
                         }
