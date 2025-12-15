@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ArgumentReader {
     private ArrayList<String> fileList = new ArrayList<>();
     private ArrayList<String> specificsList = new ArrayList<>();
-    private Activities activities;
+    private ArrayList<Activity> activities = new ArrayList<>();
 
     public void separator(String[] args){
         for(int i=0; i< args.length; i++){
@@ -22,12 +22,13 @@ public class ArgumentReader {
     public void fileNamesList(){
         XMLFileReader xml = new XMLFileReader();
         for(String value : fileList){
-            activities = xml.fileReader(value);
+            Activities parsed = xml.fileReader(value);
+            activities.addAll(parsed.getActivities());
         }
     }
 
 
-    public Activities getActivities() {
+    public ArrayList<Activity> getActivities() {
         return activities;
     }
 

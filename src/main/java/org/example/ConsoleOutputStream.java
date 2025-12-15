@@ -9,9 +9,9 @@ public class ConsoleOutputStream {
     private ArrayList<Activity> activities;
     private ArrayList<String> args;
 
-    public ConsoleOutputStream(ArrayList<String> args, Activities activities) {
+    public ConsoleOutputStream(ArrayList<String> args, ArrayList<Activity> activities) {
         this.args = args;
-        this.activities = activities.getActivities();
+        this.activities = activities;
         ConsolePrinter();
     }
 
@@ -39,21 +39,9 @@ public class ConsoleOutputStream {
             }
         }
 
-//        String sex = null;
-//        int weight = -1;
-//        int age = -1;
-//        for (int i = 0; i < args.size(); i++) {
-//            if(args.get(i).equals("-s"))
-//                sex = args.get(i+1);
-//            if(args.get(i).equals("-w"))
-//                weight = Integer.parseInt(args.get(i+1));
-//            if(args.get(i+1).equals("-a"))
-//                age = Integer.parseInt(args.get(i+1));
-//        }
 
-
-        CalorieCalculator calorieCalculator = null;
-        for(Activity activity : activities) {
+    CalorieCalculator calorieCalculator = null;
+        for (Activity activity : activities) {
             System.out.println("Acitvity: " + activity.getSport());
             System.out.println("----------------------------");
             System.out.println("Distance: " + activity.getTotalDistance() + " meters");

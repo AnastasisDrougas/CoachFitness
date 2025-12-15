@@ -13,6 +13,7 @@ public class Main {
             arg.separator(args);
             arg.fileNamesList();
 
+
             ConsoleOutputStream printer = new ConsoleOutputStream(arg.getSpecificsList(), arg.getActivities());
         }
     }
