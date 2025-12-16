@@ -41,6 +41,7 @@ public class ConsoleOutputStream {
 
 
     CalorieCalculator calorieCalculator = null;
+        double cal = 0;
         for (Activity activity : activities) {
             System.out.println("Acitvity: " + activity.getSport());
             System.out.println("----------------------------");
@@ -61,6 +62,7 @@ public class ConsoleOutputStream {
             if ((weight != -1) && (age != -1) && (sex != null)) {
 
                 calorieCalculator = new CalorieCalculator(sex, age, weight, activity.getTotalTime(), activity.getAvgHeartRate());
+                cal = calorieCalculator.getCalories();
             } else if (weight != -1) {
 
                 switch (activity.getSport()) {
@@ -83,10 +85,11 @@ public class ConsoleOutputStream {
                         System.out.println("DIDY problem");
                 }
                 calorieCalculator = new CalorieCalculator(m.getValue(), weight, activity.getTotalTime());
+                cal = calorieCalculator.getCalories();
             } else {
                 System.out.println("DIDY problem");
             }
-            System.out.println("Calories: " + calorieCalculator.getCalories());
+            System.out.println("Calories: " + cal);
         }
     }
 }
