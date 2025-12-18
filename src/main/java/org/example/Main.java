@@ -12,8 +12,6 @@ public class Main {
             ArgumentReader arg = new ArgumentReader();
             arg.separator(args);
             arg.fileNamesList();
-
-
             ConsoleOutputStream printer = new ConsoleOutputStream(arg.getSpecificsList(), arg.getActivities());
         }
     }
