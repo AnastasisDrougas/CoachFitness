@@ -21,17 +21,6 @@ public class Trackpoints {
     public Trackpoints(Node node) {
         Element trackpointElement = (Element) node;
         initiator(trackpointElement);
-//        System.out.println("Trackpoint");
-//        System.out.println(timestamp);
-//        System.out.println(longitude);
-//        System.out.println(latitude);
-//        System.out.println(altitude);
-//        System.out.println(distanceMeters);
-//        System.out.println(speed);
-//        System.out.println(heartRate);
-//        System.out.println(cadence);
-//        System.out.println("\n\n\n");
-
     }
 
     private void initiator(Element element) {
@@ -100,8 +89,6 @@ public class Trackpoints {
         if (ExtList.getLength() > 0) {
             Element ns3  = (Element) ExtList.item(0);
 
-            //String speedStr = ns3.getElementsByTagName("ns3:Speed").item(0).getTextContent();
-            //String cadenceStr = ns3.getElementsByTagName("ns3:RunCadence").item(0).getTextContent();
 
             NodeList speedList = ns3.getElementsByTagName("ns3:Speed");
             String speedStr = null;

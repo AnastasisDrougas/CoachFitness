@@ -3,10 +3,7 @@ package org.example;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import java.io.File;
 import java.io.FileInputStream;
 
 public class XMLFileReader {
@@ -22,6 +19,7 @@ public class XMLFileReader {
             Document doc = dBuilder.parse(new FileInputStream(filename));
             list = new Activities(doc.getElementsByTagName("Activity"));
         } catch (Exception e) {
+            System.out.println("Wrong file type!");
             e.printStackTrace();
         }
         return list;

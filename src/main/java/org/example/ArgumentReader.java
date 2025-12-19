@@ -21,18 +21,30 @@ public class ArgumentReader {
 
     public void fileNamesList(){
         XMLFileReader xml = new XMLFileReader();
-        for(String value : fileList){
-            Activities parsed = xml.fileReader(value);
-            activities.addAll(parsed.getActivities());
+        if (!fileList.isEmpty()) {
+            for (String value : fileList) {
+                Activities parsed = xml.fileReader(value);
+                activities.addAll(parsed.getActivities());
+            }
+        } else {
+            System.out.println("No file given!");
         }
     }
 
 
     public ArrayList<Activity> getActivities() {
-        return activities;
+        ArrayList<Activity> list = new ArrayList<Activity>();
+        for(Activity e : activities){
+            list.add(e);
+        }
+        return list;
     }
 
     public ArrayList<String> getSpecificsList() {
-        return specificsList;
+        ArrayList<String> list = new ArrayList<String>();
+        for(String e : specificsList){
+            list.add(e);
+        }
+        return list;
     }
 }

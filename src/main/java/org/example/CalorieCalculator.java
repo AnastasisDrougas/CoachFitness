@@ -4,12 +4,11 @@ public class CalorieCalculator {
     private double calories;
 
     public CalorieCalculator(double m, double weight, double time){
-        calories = m * weight * (time/60);
+        calories = m * weight * (time/60.0);
     }
 
     public CalorieCalculator(String  sex, int age, double weight, double time, double hbpm){
 
-        //TODO
         if(sex.equals("f")){
             calories = ((-20.4022 + (0.4472 * hbpm) + (0.1263 * weight) + (0.074 * age) )* time)/4.184;
         } else if (sex.equals("m")) {

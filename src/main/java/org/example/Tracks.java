@@ -8,17 +8,17 @@ import java.util.ArrayList;
 public class Tracks {
     private ArrayList<Trackpoints> trackpoints = new ArrayList<>();
 
-
-
-
     public Tracks(Node node) {
         Element activityElement = (Element) node;
         ArrayListConverter<Trackpoints> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Trackpoint"),Trackpointnode -> new Trackpoints(Trackpointnode));
         trackpoints = converter.getList();
-
     }
 
     public ArrayList<Trackpoints> getTrackpoints() {
-        return trackpoints;
+        ArrayList<Trackpoints> list = new ArrayList<Trackpoints>();
+        for(Trackpoints e : trackpoints){
+            list.add(e);
+        }
+        return list;
     }
 }

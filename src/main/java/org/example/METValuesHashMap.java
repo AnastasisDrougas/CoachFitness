@@ -23,9 +23,9 @@ public class METValuesHashMap {
         /*
         *Everything Sport that is not
         * initialized ("Other") gets the default
-        * MET value -> 1.1
+        * MET value -> 3.0
         */
-        return metValues.getOrDefault(key, 1.1);
+        return metValues.getOrDefault(key, 3.0);
     }
 
 }

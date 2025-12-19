@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.ArrayList;
-
 public class TotalDistanceCalculator implements Calculator<Double>{
 
     @Override

@@ -2,28 +2,17 @@ package org.example;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import java.util.ArrayList;
 
 public class Activity {
 
     private ArrayList<Laps> laps = new ArrayList<>();
-    private Calculator<Double> totalDistanceCalculator = new TotalDistanceCalculator();
-    private Calculator<Double> avgHeartRateBpmCalculator = new AvgHeartRateBpmCalculator();
-    private Calculator<Double> totalTimeCalculator = new TotalTimeCalculator();
-    private Calculator<Double> maxPaceCalculator = new MaxPaceCalculator();
-    private Calculator<Double> minPaceCalculator = new MinPaceCalculator();
 
     private double totalDistance;
-
     private double avgHeartRate;
-
     private double totalTime;
-
     private double avgSpeed; // km/h.
-    private double avgPace;// min/km.
-
+    private double avgPace; // min/km.
     private double maxPace;
     private double minPace;
 
@@ -39,16 +28,29 @@ public class Activity {
     }
 
     private void initiator(){
+        ArrayList<Double> results;
+        CompositeCalculator composite = new CompositeCalculator();
 
-        avgHeartRate = (double) avgHeartRateBpmCalculator.calculate(this);
-        totalDistance = (double) totalDistanceCalculator.calculate(this);
-        totalTime = (double) totalTimeCalculator.calculate(this) / 60;
+        composite.addCalculator(new AvgHeartRateBpmCalculator());
+        composite.addCalculator(new TotalDistanceCalculator());
+        composite.addCalculator(new TotalTimeCalculator());
+        composite.addCalculator(new MaxPaceCalculator());
+        composite.addCalculator(new MinPaceCalculator());
 
-        avgSpeed = (totalDistance / 1000) / (totalTime / 60); // km/h.
-        avgPace = totalTime / (totalDistance / 1000) ;// min/km.
+        results = composite.calculate(this);
 
-        maxPace = (double) maxPaceCalculator.calculate(this);
-        minPace = (double) minPaceCalculator.calculate(this);
+        avgHeartRate = (double) results.get(0);
+        totalDistance = (double) results.get(1);
+        totalTime = (double) results.get(2) / 60.0;
+
+        avgSpeed = (totalDistance / 1000.0) / (totalTime / 60.0); // km/h.
+
+        if(totalDistance != 0) {
+            avgPace = totalTime / (totalDistance / 1000.0); // min/km.
+        } else { avgPace = 0.0; }
+
+        maxPace = (double) results.get(3);
+        minPace = (double) results.get(4);
 
     }
 
@@ -62,10 +64,6 @@ public class Activity {
 
     public String getSport() {
         return sport;
-    }
-
-    public ArrayList<Laps> getLaps() {
-        return laps;
     }
 
     public double getTotalTime() {
@@ -84,7 +82,13 @@ public class Activity {
         return maxPace;
     }
 
-    public double getMinPace() {
-        return minPace;
+    public double getMinPace() {return minPace; }
+
+    public ArrayList<Laps> getLaps() {
+        ArrayList<Laps> list = new ArrayList<Laps>();
+        for(Laps e : laps){
+            list.add(e);
+        }
+        return list;
     }
 }

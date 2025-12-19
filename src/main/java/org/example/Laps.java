@@ -34,7 +34,11 @@ public class Laps {
     }
 
     public ArrayList<Tracks> getTracks() {
-        return tracks;
+        ArrayList<Tracks> list = new ArrayList<Tracks>();
+        for(Tracks e : tracks){
+            list.add(e);
+        }
+        return list;
     }
 
     public double getDistanceMeters() {
