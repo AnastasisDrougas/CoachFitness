@@ -65,7 +65,7 @@ public class ConsoleOutputStream {
                     System.out.println("Maximum pace reached: " + String.format("%.2f", activity.getMaxPace()));
                     System.out.println("Minimum pace reached: " + String.format("%.2f", activity.getMinPace()));
                 }
-                System.out.println("----------------------------");
+
             }
 
 
@@ -79,6 +79,7 @@ public class ConsoleOutputStream {
                 }
 
                 cal = calorieCalculator.getCalories();
+                System.out.println("----------------------------");
                 System.out.println(String.format("Calories burned:" + "%.2f", cal) + " kcal\n\n");
 
             } else if (weight != -1) {
@@ -86,6 +87,7 @@ public class ConsoleOutputStream {
                 double m = METValues.get(activity.getSport());
                 calorieCalculator = new CalorieCalculator(m, weight, activity.getTotalTime());
                 cal = calorieCalculator.getCalories();
+                System.out.println("----------------------------");
                 System.out.println(String.format("Calories burned:" + "%.2f", cal) + " kcal\n\n");
 
             } else {
