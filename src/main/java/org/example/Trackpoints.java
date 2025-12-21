@@ -8,6 +8,11 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
 public class Trackpoints {
     private LocalDateTime timestamp;
     private double longitude;
@@ -20,6 +25,7 @@ public class Trackpoints {
 
     public Trackpoints(Node node) {
         Element trackpointElement = (Element) node;
+        //Extracting data from the TCX File that are into <Trackpoints>
         initiator(trackpointElement);
     }
 

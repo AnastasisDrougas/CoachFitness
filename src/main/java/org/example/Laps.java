@@ -6,15 +6,28 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
 public class Laps {
-    private ArrayList<Tracks> tracks = new ArrayList<>();
+    private ArrayList<Tracks> tracks ;
     private double distanceMeters;
     private double timeInSeconds;
-
+    /**
+     * Constructor: Converts a NodeList of tracks nodes
+     * into an ArrayList of track objects.
+     *
+     * The lambda expression tells the converter
+     * how to transform each node into a track
+     * using the Tracks constructor.
+     */
     public Laps(Node node) {
         Element activityElement = (Element) node;
         ArrayListConverter<Tracks> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Track"),Tracknode -> new Tracks(Tracknode));
         tracks = converter.getList();
+        //Extracting data from the TCX File that are into <Laps>
         initiator(activityElement);
     }
 

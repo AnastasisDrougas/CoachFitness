@@ -1,5 +1,14 @@
 package org.example;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
+/**
+* A calorie calculator implementing two formulas using data extracted from the
+* TCX File and personal user info.
+*/
 public class CalorieCalculator {
     private double calories;
 

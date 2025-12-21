@@ -1,5 +1,13 @@
 package org.example;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
+/**
+ * An implementation of the calculator interface for Max Pace.
+ */
 public class MaxPaceCalculator implements Calculator<Double> {
     @Override
     public Double calculate(Activity activity) {

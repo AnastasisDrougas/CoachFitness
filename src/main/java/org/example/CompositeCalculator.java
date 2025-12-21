@@ -2,6 +2,16 @@ package org.example;
 
 import java.util.ArrayList;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
+/**
+ * A composite calculator that holds multiple Calculator<Double> objects.
+ * It can run all calculators on a given Activity and return their results,
+ * using two parallel ArrayLists.
+ */
 public class CompositeCalculator {
     private ArrayList<Calculator<Double>> calculatorArrayList = new ArrayList<>();
 

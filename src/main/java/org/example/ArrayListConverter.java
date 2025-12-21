@@ -6,9 +6,16 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.function.Function;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
+/**
+* A generic class that converts a NodeList into an ArrayList of objects of type E.
+*/
 public class ArrayListConverter<E>{
     private ArrayList<E> list = new ArrayList<>();
-
 
     public ArrayListConverter(NodeList nodes, Function<Node, E> mapper) {
         converter(nodes, mapper);

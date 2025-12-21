@@ -4,9 +4,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import java.util.ArrayList;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
 public class Activity {
 
-    private ArrayList<Laps> laps = new ArrayList<>();
+    private ArrayList<Laps> laps;
 
     private double totalDistance;
     private double avgHeartRate;
@@ -15,20 +20,31 @@ public class Activity {
     private double avgPace; // min/km.
     private double maxPace;
     private double minPace;
-
     private String sport;
 
+    /**
+     * Constructor: Converts a NodeList of Laps nodes
+     * into an ArrayList of Lap objects.
+     *
+     * The lambda expression tells the converter
+     * how to transform each node into a lap
+     * using the Laps constructor.
+     */
     public Activity(Node node) {
         Element activityElement = (Element) node;
         sport = activityElement.getAttribute("Sport");
         ArrayListConverter<Laps> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Lap"),Lapnode -> new Laps(Lapnode));
         laps = converter.getList();
-
+        //Initialising all the calculators
         initiator();
     }
 
     private void initiator(){
         ArrayList<Double> results;
+        /**
+        * All calculators are grouped together using the Composite pattern
+        *  this is using with two parallel ArrayLists.
+        */
         CompositeCalculator composite = new CompositeCalculator();
 
         composite.addCalculator(new AvgHeartRateBpmCalculator());

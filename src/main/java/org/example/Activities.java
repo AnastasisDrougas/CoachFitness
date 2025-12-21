@@ -3,9 +3,22 @@ package org.example;
 import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 
-public class Activities {
-    private ArrayList<Activity> activities = new ArrayList<>();
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
 
+public class Activities {
+    private ArrayList<Activity> activities ;
+
+    /**
+     * Constructor: Converts a NodeList of activity nodes
+     * into an ArrayList of Activity objects.
+     *
+     * The lambda expression tells the converter
+     * how to transform each node into an Activity
+     * using the Activity constructor.
+     */
     public Activities(NodeList nodes) {
         ArrayListConverter<Activity> converter = new ArrayListConverter<>(nodes, node -> new Activity(node));
         activities = converter.getList();

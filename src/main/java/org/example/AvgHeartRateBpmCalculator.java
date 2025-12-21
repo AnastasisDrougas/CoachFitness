@@ -1,5 +1,13 @@
 package org.example;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
+/**
+* An implementation of the calculator interface for Average BPM.
+*/
 public class AvgHeartRateBpmCalculator implements Calculator<Double> {
 
     @Override

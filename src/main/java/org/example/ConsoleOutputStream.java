@@ -2,6 +2,15 @@ package org.example;
 
 import java.util.ArrayList;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
+/**
+ * Console Output. Prints user's statistics in the terminal.
+ */
+
 public class ConsoleOutputStream {
     private ArrayList<Activity> activities;
     private ArrayList<String> args;

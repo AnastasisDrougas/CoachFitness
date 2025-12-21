@@ -3,6 +3,14 @@ package org.example;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Anastasis Drougas
+ * @author Anjelo Hoxhaj
+ */
+
+/**
+ * A HashMap storing all the MET values for different sports.
+ */
 public class METValuesHashMap {
 
     private final Map<String, Double> metValues;
@@ -20,12 +28,12 @@ public class METValuesHashMap {
     }
 
     public double get(String key){
-        /*
+        /**
         *Everything Sport that is not
-        * initialized ("Other") gets the default
-        * MET value -> 3.0
+        * initialized, ("Other"), gets the default
+        * MET value -> 3.5
         */
-        return metValues.getOrDefault(key, 3.0);
+        return metValues.getOrDefault(key, 3.5);
     }
 
 }
