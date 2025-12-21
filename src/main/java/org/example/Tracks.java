@@ -4,10 +4,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 public class Tracks {
@@ -17,13 +18,21 @@ public class Tracks {
      * Constructor: Converts a NodeList of trackpoint nodes
      * into an ArrayList of trackpoint objects.
      *
-     * The lambda expression tells the converter
+     * The anonymous function tells the converter
      * how to transform each node into a Trackpoint
      * using the Trackpoint constructor.
      */
     public Tracks(Node node) {
         Element activityElement = (Element) node;
-        ArrayListConverter<Trackpoints> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Trackpoint"),Trackpointnode -> new Trackpoints(Trackpointnode));
+        ArrayListConverter<Trackpoints> converter =
+            new ArrayListConverter<>(
+                activityElement.getElementsByTagName("Trackpoint"),
+                new Function<Node, Trackpoints>() {    //anonymous function
+                    @Override
+                    public Trackpoints apply(Node node) {
+                        return new Trackpoints(node);
+                    }
+                });
         trackpoints = converter.getList();
     }
 

@@ -10,7 +10,7 @@ import java.time.ZoneId;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 public class Trackpoints {
@@ -73,10 +73,16 @@ public class Trackpoints {
 
         // -> DistanceMeters
         NodeList distList = element.getElementsByTagName("DistanceMeters");
-        String distStr = distList.item(0).getTextContent();
-        if((distStr != null && !distStr.isEmpty())){
-            distanceMeters = Double.parseDouble(distStr);
-        }else{ distanceMeters = 0; }
+        if (distList.getLength() > 0 && distList.item(0) != null) {
+            String distStr = distList.item(0).getTextContent();
+            if ((distStr != null && !distStr.isEmpty())) {
+                distanceMeters = Double.parseDouble(distStr);
+            } else {
+                distanceMeters = 0;
+            }
+        } else {
+            distanceMeters = 0;
+        }
 
         //Heart Rate -> heartRate value.
         NodeList heartrateList = element.getElementsByTagName("HeartRateBpm");

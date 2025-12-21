@@ -2,7 +2,7 @@ package org.example;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 /**

@@ -1,11 +1,13 @@
 package org.example;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 public class Activities {
@@ -15,12 +17,20 @@ public class Activities {
      * Constructor: Converts a NodeList of activity nodes
      * into an ArrayList of Activity objects.
      *
-     * The lambda expression tells the converter
+     * The anonymous function tells the converter
      * how to transform each node into an Activity
      * using the Activity constructor.
      */
     public Activities(NodeList nodes) {
-        ArrayListConverter<Activity> converter = new ArrayListConverter<>(nodes, node -> new Activity(node));
+        ArrayListConverter<Activity> converter =
+            new ArrayListConverter<>(
+                nodes,
+                new Function<Node, Activity>() {    //anonymous function
+                    @Override
+                    public Activity apply(Node node) {
+                        return new Activity(node);
+                    }
+                });
         activities = converter.getList();
     }
 

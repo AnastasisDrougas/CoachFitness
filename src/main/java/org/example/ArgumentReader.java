@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 public class ArgumentReader {

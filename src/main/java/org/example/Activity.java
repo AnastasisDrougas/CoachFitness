@@ -3,10 +3,11 @@ package org.example;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 public class Activity {
@@ -26,14 +27,22 @@ public class Activity {
      * Constructor: Converts a NodeList of Laps nodes
      * into an ArrayList of Lap objects.
      *
-     * The lambda expression tells the converter
+     * The anonymous function tells the converter
      * how to transform each node into a lap
      * using the Laps constructor.
      */
     public Activity(Node node) {
         Element activityElement = (Element) node;
         sport = activityElement.getAttribute("Sport");
-        ArrayListConverter<Laps> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Lap"),Lapnode -> new Laps(Lapnode));
+        ArrayListConverter<Laps> converter =
+            new ArrayListConverter<>(
+                activityElement.getElementsByTagName("Lap"),
+                new Function<Node, Laps>() {    //anonymous function
+                    @Override
+                    public Laps apply(Node node) {
+                        return new Laps(node);
+                    }
+                });
         laps = converter.getList();
         //Initialising all the calculators
         initiator();

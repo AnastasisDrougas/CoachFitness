@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 /**
@@ -22,7 +22,7 @@ public class METValuesHashMap {
         temp.put("Running",10.0);
         temp.put("Walking",3.5);
         temp.put("Pool Swimming",11.0);
-        temp.put("Cycling",6.5);
+        temp.put("Biking",6.5);
 
         this.metValues = Map.copyOf(temp);
     }

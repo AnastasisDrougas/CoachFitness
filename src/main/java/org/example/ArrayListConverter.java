@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 /**

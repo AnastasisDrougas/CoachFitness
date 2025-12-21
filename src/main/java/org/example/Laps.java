@@ -5,10 +5,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 public class Laps {
@@ -19,13 +20,21 @@ public class Laps {
      * Constructor: Converts a NodeList of tracks nodes
      * into an ArrayList of track objects.
      *
-     * The lambda expression tells the converter
+     * The anonymous function tells the converter
      * how to transform each node into a track
      * using the Tracks constructor.
      */
     public Laps(Node node) {
         Element activityElement = (Element) node;
-        ArrayListConverter<Tracks> converter = new ArrayListConverter<>(activityElement.getElementsByTagName("Track"),Tracknode -> new Tracks(Tracknode));
+        ArrayListConverter<Tracks> converter =
+            new ArrayListConverter<>(
+                activityElement.getElementsByTagName("Track"),
+                new Function<Node, Tracks>() {    //anonymous function
+                    @Override
+                    public Tracks apply(Node node) {
+                        return new Tracks(node);
+                    }
+                });
         tracks = converter.getList();
         //Extracting data from the TCX File that are into <Laps>
         initiator(activityElement);

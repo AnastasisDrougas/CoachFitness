@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Anastasis Drougas
- * @author Anjelo Hoxhaj
+ * @author Angjelo Hoxhaj
  */
 
 /**
@@ -55,15 +55,18 @@ public class ConsoleOutputStream {
             System.out.println("Heart Rate: " + String.format("%.2f", activity.getAvgHeartRate()) + " bpm");
             System.out.println("TotalTime: " + String.format("%.2f", activity.getTotalTime()) + " mins");
             System.out.println("Average Speed: " + String.format("%.2f", activity.getAvgSpeed()) + " km/h");
-            System.out.println("Average Pace: " + String.format("%.2f", activity.getAvgPace()) + " min/km");
 
-            if (activity.getMaxPace() == 0 || activity.getMinPace() == 0) {
-                System.out.println("Minimum & Maximum Pace cannot be calculated!");
-            } else {
-                System.out.println("Maximum pace reached: " + String.format("%.2f", activity.getMaxPace()));
-                System.out.println("Minimum pace reached: " + String.format("%.2f", activity.getMinPace()));
+            if(!activity.getSport().equals("Biking")) {
+                System.out.println("Average Pace: " + String.format("%.2f", activity.getAvgPace()) + " min/km");
+
+                if (activity.getMaxPace() == 0 || activity.getMinPace() == 0) {
+                    System.out.println("Minimum & Maximum Pace cannot be calculated!");
+                } else {
+                    System.out.println("Maximum pace reached: " + String.format("%.2f", activity.getMaxPace()));
+                    System.out.println("Minimum pace reached: " + String.format("%.2f", activity.getMinPace()));
+                }
+                System.out.println("----------------------------");
             }
-            System.out.println("----------------------------");
 
 
             if ((weight != -1) && (age != -1) && (sex != null)) {
