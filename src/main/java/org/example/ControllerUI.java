@@ -38,11 +38,11 @@ public class ControllerUI {
                     return;
                 }
 
-                updateStats();
+                ArrayList<Double> caloriesList = updateStats();
                 view.getTableModel().setRowCount(0);
-
-                for(Activity a : activities) {
-                    Object[] row = {a.getSport(), a.getTotalDistance(), a.getTotalTime(), a.getAvgHeartRate(),calories};
+                for(int i = 0; i < activities.size(); i++) {
+                    Activity a = activities.get(i);
+                    Object[] row = {a.getSport(), a.getTotalDistance(), a.getTotalTime(), a.getAvgHeartRate(),a.getAvgSpeed(),caloriesList.get(i)};
                     view.getTableModel().addRow(row);
                 }
             }
@@ -59,6 +59,9 @@ public class ControllerUI {
 
                     if (!view.getMale().isSelected() && !view.getFemale().isSelected()) {
                         throw new IllegalArgumentException("You must select one option.");
+                    }
+                    if( weight <= 0 || age <= 0 || goal < 0){
+                        throw new IllegalArgumentException("Please enter valid information!");
                     }
                     view.showFormula();
                 } catch (NumberFormatException ex) {
@@ -83,7 +86,59 @@ public class ControllerUI {
             }
         });
 
-        //TODO -> Daily goal.
+        view.getAddActivity().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTextField sportField = new JTextField(10);
+                JTextField distanceField = new JTextField(5);
+                JTextField timeField = new JTextField(5);
+                JTextField hrField = new JTextField(5);
+                JTextField speedField = new JTextField(5);
+
+                JPanel addActivityPanel = new JPanel();
+                addActivityPanel.setLayout(new BoxLayout(addActivityPanel, BoxLayout.Y_AXIS));
+                addActivityPanel.add(new JLabel("Sport (e.g., Running):"));
+                addActivityPanel.add(sportField);
+                addActivityPanel.add(new JLabel("Total Distance (meters):"));
+                addActivityPanel.add(distanceField);
+                addActivityPanel.add(new JLabel("Total Time (seconds):"));
+                addActivityPanel.add(timeField);
+                addActivityPanel.add(new JLabel("Avg Heart Rate:"));
+                addActivityPanel.add(hrField);
+                addActivityPanel.add(new JLabel("Avg Speed Rate (km/h):"));
+                addActivityPanel.add(speedField);
+
+                //Open dialog for manual addition of activities.
+                int result = JOptionPane.showConfirmDialog(null, addActivityPanel, "Enter Manual Activity Details", JOptionPane.OK_CANCEL_OPTION);
+
+                if(result == JOptionPane.OK_OPTION){
+                    try{
+                        String sport = sportField.getText();
+                        double dist = Double.parseDouble(distanceField.getText());
+                        double time = Double.parseDouble(timeField.getText());
+                        int hr = Integer.parseInt(hrField.getText());
+                        double speed =  Double.parseDouble(speedField.getText());
+
+                        if(sport.isEmpty()){
+                            throw new IllegalArgumentException("Please enter the sports field!");
+                        }
+                        if(time <= 0 || hr <= 0 || (speed*dist) <= 0){
+                            throw new IllegalArgumentException("Please enter valid information!");
+                        }
+                        Activity manualActivity = new Activity(sport, dist, time, speed, hr);
+                        activities.add(manualActivity);
+
+                        //Refresh table, add the new mannually added activity.
+                        refreshTable();
+
+                    }catch(NumberFormatException ex){
+                        JOptionPane.showMessageDialog(null, "Please enter valid information", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    }catch(IllegalArgumentException ex){
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
     }
 
     private void processXMLFiles(File[] fileList){
@@ -92,32 +147,55 @@ public class ControllerUI {
             Activities activityList = xml.fileReader(f.getAbsolutePath());
             activities.addAll(activityList.getActivities());
         }
-        //TODO -> view.updateTable(activities);
     }
 
-    private void updateStats(){
+    private ArrayList<Double> updateStats(){
 
         double weight = Double.parseDouble(view.getWeightField().getText());
         double goal = Double.parseDouble(view.getGoalField().getText());
-
         double totalCalBurned = 0;
 
         //For each Activity:
-        for(Activity a : activities){
-            CalorieCalculator calc;
-            //Choose Calorie calculating formula.
-            if(view.isHeartRateMethodSelected()){
-                int age = Integer.parseInt(view.getAgeField().getText());
-                String sex = view.getSexField();
-                calc = new CalorieCalculator(sex, age, weight, a.getTotalTime(), a.getAvgHeartRate());
-            }else{
-                METValuesHashMap METValues = new METValuesHashMap();
-                double m = METValues.get(a.getSport());
-                calc = new CalorieCalculator(m, weight, a.getTotalTime());
-            }
-            calories = calc.getCalories();
-            totalCalBurned += calc.getCalories();
+        ArrayList<Double> activityCalories = new ArrayList<>();
+        for (Activity a : activities) {
+            activityCalories.add(calculateCalories(a));
         }
-        //TODO -> view.setGoalResult(totalBurned, goal);
+        return activityCalories;
+    }
+
+
+    //Refresh table and add the activity that the user put mannually.
+    private void refreshTable() {
+        view.getTableModel().setRowCount(0);
+
+        double weight = Double.parseDouble(view.getWeightField().getText());
+        int age = Integer.parseInt(view.getAgeField().getText());
+        String sex = view.getSexField();
+
+        //For each activity:
+        for (Activity a : activities) {
+            double calories = calculateCalories(a);
+            Object[] row = {a.getSport(), a.getTotalDistance(), a.getTotalTime(), a.getAvgHeartRate(),a.getAvgSpeed(), calories};
+            view.getTableModel().addRow(row);
+        }
+    }
+
+    private double calculateCalories(Activity a) {
+        double weight = Double.parseDouble(view.getWeightField().getText());
+        int age = Integer.parseInt(view.getAgeField().getText());
+        String sex = view.getSexField();
+
+        double timeMinutes = a.getTotalTime();
+        CalorieCalculator calc;
+
+        if (view.isHeartRateMethodSelected()) {
+            calc = new CalorieCalculator(sex, age, weight, timeMinutes, a.getAvgHeartRate());
+        } else {
+            METValuesHashMap metMap = new METValuesHashMap();
+            double met = metMap.get(a.getSport().trim());
+            calc = new CalorieCalculator(met, weight, timeMinutes);
+        }
+
+        return calc.getCalories();
     }
 }

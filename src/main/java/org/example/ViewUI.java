@@ -8,6 +8,7 @@ import java.awt.*;
 public class ViewUI extends JFrame {
     private CardLayout cardLayout = new CardLayout();
     private JPanel mainContainer;
+
     //Fields.
     public JButton loadBtn = new JButton("Load your TCX files");
     private JRadioButton hrButton = new JRadioButton("Advanced Method");
@@ -16,11 +17,11 @@ public class ViewUI extends JFrame {
 
     JButton next1 = new JButton("Next");
     JButton next2 = new JButton("Next");
+    JButton addActivity = new JButton("Add Activity");
 
     public  JTextField weightField = new JTextField(5);
     public  JTextField ageField = new JTextField(5);
     public  JTextField goalField = new JTextField(5);
-    //public  JTextField sexField = new JTextField(5);
 
     private JRadioButton male = new JRadioButton("Male");
     private JRadioButton female = new JRadioButton("Female");
@@ -34,7 +35,7 @@ public class ViewUI extends JFrame {
     private DefaultTableModel tableModel;
 
     public ViewUI(){
-        setTitle("Fitness Coach ULTRA ProMax Edition");
+        setTitle("Fitness Buddy ULTRA ProMax Edition");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600, 500);
         setMinimumSize(new Dimension(600, 500));
@@ -43,7 +44,7 @@ public class ViewUI extends JFrame {
         mainContainer = new JPanel(cardLayout);
 
 
-        //CARD 1: profile card
+        //CARD 1: User's profile info card
         JPanel InputCard = new JPanel(new GridLayout(0, 2, 10, 10));
 
         addInputRow(InputCard, "Weight:", weightField, 5, labelFont, fieldFont);
@@ -53,7 +54,6 @@ public class ViewUI extends JFrame {
         sexLabel.setFont(labelFont);
         sexLabel.setBorder(new EmptyBorder(0, 40, 60, 0));
         InputCard.add(sexLabel);
-
         group2 = new ButtonGroup();
         addRadioButton(InputCard, male, female, group2, labelFont);
 
@@ -87,21 +87,27 @@ public class ViewUI extends JFrame {
         bottomPanel2.add(next2);
         inputWrapper2.add(bottomPanel2, BorderLayout.SOUTH);
 
+
         //CARD 3: results
         JPanel resultsPanel = new JPanel(new BorderLayout());
         initTable();
         resultsPanel.add(new JScrollPane(Table), BorderLayout.CENTER);
         resultsPanel.add(loadBtn, BorderLayout.SOUTH);
 
+        JPanel inputWrapper3 = new JPanel(new BorderLayout());
+        inputWrapper3.add(resultsPanel, BorderLayout.CENTER);
+
+        JPanel bottomPanel3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel3.add(addActivity);
+        inputWrapper3.add(bottomPanel3, BorderLayout.SOUTH);
+
 
         mainContainer.add(inputWrapper, "PROFILE");
         mainContainer.add(inputWrapper2, "FORMULA");
-        mainContainer.add(resultsPanel, "RESULTS");
-
+        mainContainer.add(inputWrapper3, "RESULTS");
         add(mainContainer);
+
         showProfile();
-
-
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -111,7 +117,7 @@ public class ViewUI extends JFrame {
     }
 
     public void initTable() {
-        String[] columns = {"Sport", "Distance (m)", "Time (min)", "Avg HR", "Calories"};
+        String[] columns = {"Sport", "Distance (m)", "Time (min)", "Avg HR (bpm)","Avg Speed (km/h)", "Calories"};
         tableModel = new DefaultTableModel(columns, 0);
         Table = new JTable(tableModel);
         add(new JScrollPane(Table), BorderLayout.CENTER);
@@ -129,7 +135,6 @@ public class ViewUI extends JFrame {
         label.setBorder(new EmptyBorder(0, 40, 60, 0));
 
         JPanel fieldWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        //fieldWrapper.setOpaque(false);
         fieldWrapper.add(field);
 
         panel.add(fieldWrapper);
@@ -147,13 +152,14 @@ public class ViewUI extends JFrame {
         wrapper.add(btn1);
         wrapper.add(btn2);
 
-
         panel.add(wrapper);
     }
 
     public JButton getLoadBtn() {
         return loadBtn;
     }
+
+    public JButton getAddActivity() { return addActivity; }
 
     public JRadioButton getHrButton() { return hrButton; }
 

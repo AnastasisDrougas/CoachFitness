@@ -48,6 +48,14 @@ public class Activity {
         initiator();
     }
 
+    public Activity(String sport, double dist, double time,double speed, int hr) {
+        this.sport = sport;
+        this.totalDistance = dist;
+        this.totalTime = time;
+        this.avgHeartRate = hr;
+        this.avgSpeed = speed;
+    }
+
     private void initiator(){
         ArrayList<Double> results;
         /**
