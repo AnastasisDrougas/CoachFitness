@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -25,9 +26,16 @@ public class ControllerUI {
                 JFileChooser chooser = new JFileChooser();
                 chooser.setMultiSelectionEnabled(true);
 
+                //filter only xml files
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("TCX Files", "tcx");
+                chooser.setFileFilter(filter);
+                chooser.setAcceptAllFileFilterUsed(false);
+
                 int retVal = chooser.showOpenDialog(view);
                 if(retVal == JFileChooser.APPROVE_OPTION){
                     processXMLFiles(chooser.getSelectedFiles());
+                } else {
+                    return;
                 }
 
                 updateStats();
@@ -36,6 +44,41 @@ public class ControllerUI {
                 for(Activity a : activities) {
                     Object[] row = {a.getSport(), a.getTotalDistance(), a.getTotalTime(), a.getAvgHeartRate(),calories};
                     view.getTableModel().addRow(row);
+                }
+            }
+        });
+
+        view.getNext1().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO check
+                try {
+                    double weight = Double.parseDouble(view.getWeightField().getText());
+                    double goal = Double.parseDouble(view.getGoalField().getText());
+                    int age = Integer.parseInt(view.getAgeField().getText());
+
+                    if (!view.getMale().isSelected() && !view.getFemale().isSelected()) {
+                        throw new IllegalArgumentException("You must select one option.");
+                    }
+                    view.showFormula();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter valid numbers for all fields.");
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
+        });
+
+        view.getNext2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (!view.getHrButton().isSelected() && !view.getMetButton().isSelected()) {
+                        throw new IllegalArgumentException("You must select one option.");
+                    }
+                    view.showResults();
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
             }
         });
@@ -65,7 +108,7 @@ public class ControllerUI {
             //Choose Calorie calculating formula.
             if(view.isHeartRateMethodSelected()){
                 int age = Integer.parseInt(view.getAgeField().getText());
-                String sex = view.getSexField().getText();
+                String sex = view.getSexField();
                 calc = new CalorieCalculator(sex, age, weight, a.getTotalTime(), a.getAvgHeartRate());
             }else{
                 METValuesHashMap METValues = new METValuesHashMap();
