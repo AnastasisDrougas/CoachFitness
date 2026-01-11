@@ -122,7 +122,7 @@ public class ControllerUI {
                         if(sport.isEmpty()){
                             throw new IllegalArgumentException("Please enter the sports field!");
                         }
-                        if(time <= 0 || hr <= 0 || (speed*dist) <= 0){
+                        if(time <= 0 || hr <= 0 || speed < 0 || dist < 0 || ((speed == 0 && dist > 0) || (dist == 0 && speed > 0))){
                             throw new IllegalArgumentException("Please enter valid information!");
                         }
                         Activity manualActivity = new Activity(sport, dist, time, speed, hr);

@@ -47,6 +47,10 @@ public class ViewUI extends JFrame {
         //CARD 1: User's profile info card
         JPanel InputCard = new JPanel(new GridLayout(0, 2, 10, 10));
 
+        Image logo = new ImageIcon(
+                getClass().getResource("/logo.png")
+        ).getImage();
+
         addInputRow(InputCard, "Weight:", weightField, 5, labelFont, fieldFont);
         addInputRow(InputCard, "Age:", ageField, 5, labelFont, fieldFont);
 
@@ -59,12 +63,19 @@ public class ViewUI extends JFrame {
 
         addInputRow(InputCard, "Set Daily Goal:", goalField, 5, labelFont, fieldFont);
 
-        JPanel inputWrapper = new JPanel(new BorderLayout());
+        JPanel inputWrapper = new LogoPanel(logo);
+        inputWrapper.setLayout(new BorderLayout());
+
+        //JPanel inputWrapper = new JPanel(new BorderLayout());
         inputWrapper.add(InputCard, BorderLayout.CENTER);
+        InputCard.setOpaque(false);
+
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.add(next1);
+        bottomPanel.setOpaque(true);
         inputWrapper.add(bottomPanel, BorderLayout.SOUTH);
+
 
 
         //CARD 2: formula panel
@@ -90,21 +101,26 @@ public class ViewUI extends JFrame {
 
         //CARD 3: results
         JPanel resultsPanel = new JPanel(new BorderLayout());
-        initTable();
-        resultsPanel.add(new JScrollPane(Table), BorderLayout.CENTER);
-        resultsPanel.add(loadBtn, BorderLayout.SOUTH);
+        JPanel tableWrapper = new JPanel(new BorderLayout());;
+        initTable(tableWrapper);
+        resultsPanel.add(tableWrapper, BorderLayout.CENTER);
 
-        JPanel inputWrapper3 = new JPanel(new BorderLayout());
-        inputWrapper3.add(resultsPanel, BorderLayout.CENTER);
+        JPanel bottomPanel3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel3.add(loadBtn);
+        resultsPanel.add(bottomPanel3, BorderLayout.SOUTH);
+        //resultsPanel.add(loadBtn, BorderLayout.SOUTH);
 
-        JPanel bottomPanel3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        bottomPanel3.add(addActivity);
-        inputWrapper3.add(bottomPanel3, BorderLayout.SOUTH);
+        JPanel inputWrapper4 = new JPanel(new BorderLayout());
+        inputWrapper4.add(resultsPanel, BorderLayout.CENTER);
+
+        JPanel bottomPanel4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel4.add(addActivity);
+        inputWrapper4.add(bottomPanel4, BorderLayout.SOUTH);
 
 
         mainContainer.add(inputWrapper, "PROFILE");
         mainContainer.add(inputWrapper2, "FORMULA");
-        mainContainer.add(inputWrapper3, "RESULTS");
+        mainContainer.add(inputWrapper4, "RESULTS");
         add(mainContainer);
 
         showProfile();
@@ -116,11 +132,17 @@ public class ViewUI extends JFrame {
         return hrButton.isSelected();
     }
 
-    public void initTable() {
+    public void initTable(JPanel panel) {
         String[] columns = {"Sport", "Distance (m)", "Time (min)", "Avg HR (bpm)","Avg Speed (km/h)", "Calories"};
         tableModel = new DefaultTableModel(columns, 0);
         Table = new JTable(tableModel);
-        add(new JScrollPane(Table), BorderLayout.CENTER);
+
+        // Wrap table in a panel with padding
+        panel.setBorder(new EmptyBorder(20, 20, 20, 20)); // padding from edges
+
+        JScrollPane scrollPane = new JScrollPane(Table);
+        scrollPane.setPreferredSize(new Dimension(500, 300)); // make table smaller if needed
+        panel.add(scrollPane, BorderLayout.CENTER);
     }
 
     private void addInputRow(JPanel panel, String labelText, JTextField field, int columns, Font labelFont, Font fieldFont) {
@@ -136,6 +158,7 @@ public class ViewUI extends JFrame {
 
         JPanel fieldWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
         fieldWrapper.add(field);
+        fieldWrapper.setOpaque(false);
 
         panel.add(fieldWrapper);
     }
@@ -151,6 +174,7 @@ public class ViewUI extends JFrame {
         wrapper.setBorder(new EmptyBorder(0, 0, 0, 50));
         wrapper.add(btn1);
         wrapper.add(btn2);
+        wrapper.setOpaque(false);
 
         panel.add(wrapper);
     }
