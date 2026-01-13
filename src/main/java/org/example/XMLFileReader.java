@@ -9,7 +9,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+
+import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 public class XMLFileReader {
 
@@ -28,6 +31,14 @@ public class XMLFileReader {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public void processXMLFiles(File[] fileList, ArrayList<Activity> activities){
+        XMLFileReader xml = new XMLFileReader();
+        for (File f : fileList) {
+            Activities activityList = xml.fileReader(f.getAbsolutePath());
+            activities.addAll(activityList.getActivities());
+        }
     }
 
     public static String getNodeValue(NodeList n) {

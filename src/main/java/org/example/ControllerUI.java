@@ -4,14 +4,13 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ControllerUI {
     private ViewUI view;
     private ArrayList<Activity> activities = new ArrayList<>();
-    private double calories = 0;
+    private XMLFileReader xmlFile = new XMLFileReader();
+    private CalorieCalculator calorieCalculatorUI  = new CalorieCalculator();
 
     public ControllerUI(ViewUI view){
         this.view = view;
@@ -94,17 +93,16 @@ public class ControllerUI {
                 double time = Double.parseDouble(timeField.getText());
                 int hr = Integer.parseInt(hrField.getText());
                 double speed =  Double.parseDouble(speedField.getText());
-
                 if(sport.isEmpty()){
                     throw new IllegalArgumentException("Please enter the sports field!");
                 }
                 if(time <= 0 || hr <= 0 || speed < 0 || dist < 0 || ((speed == 0 && dist > 0) || (dist == 0 && speed > 0))){
                     throw new IllegalArgumentException("Please enter valid information!");
                 }
+
                 Activity manualActivity = new Activity(sport, dist, time, speed, hr);
                 activities.add(manualActivity);
-
-                //Refresh table, add the new mannually added activity.
+                //Refresh table, add the new manually added activity.
                 refreshTable();
 
             }catch(NumberFormatException ex){
@@ -126,11 +124,10 @@ public class ControllerUI {
 
         int retVal = chooser.showOpenDialog(view);
         if(retVal == JFileChooser.APPROVE_OPTION){
-            processXMLFiles(chooser.getSelectedFiles());
+            xmlFile.processXMLFiles(chooser.getSelectedFiles(), activities);
         } else {
             return;
         }
-
         ArrayList<Double> caloriesList = updateStats();
         view.getCard3().getTableModel().setRowCount(0);
         for(int i = 0; i < activities.size(); i++) {
@@ -179,59 +176,24 @@ public class ControllerUI {
         }
     }
 
-    private void processXMLFiles(File[] fileList){
-        XMLFileReader xml = new XMLFileReader();
-        for (File f : fileList) {
-            Activities activityList = xml.fileReader(f.getAbsolutePath());
-            activities.addAll(activityList.getActivities());
-        }
-    }
-
     private ArrayList<Double> updateStats(){
-
-        double weight = Double.parseDouble(view.getCard1().getWeightField().getText());
-        double goal = Double.parseDouble(view.getCard1().getGoalField().getText());
-        double totalCalBurned = 0;
-
         //For each Activity:
         ArrayList<Double> activityCalories = new ArrayList<>();
         for (Activity a : activities) {
-            activityCalories.add(calculateCalories(a));
+            activityCalories.add(calorieCalculatorUI.calculateCaloriesForGUI(a, view));
         }
         return activityCalories;
     }
 
-
     //Refresh table and add the activity that the user put mannually.
     private void refreshTable() {
         view.getCard3().getTableModel().setRowCount(0);
-
         //For each activity:
         for (Activity a : activities) {
-            double calories = calculateCalories(a);
+            double calories = calorieCalculatorUI.calculateCaloriesForGUI(a, view);
             Object[] row = {a.getSport(), a.getTotalDistance(), a.getTotalTime(), a.getAvgHeartRate(),a.getAvgSpeed(), calories};
             view.getCard3().getTableModel().addRow(row);
         }
     }
-
-    private double calculateCalories(Activity a) {
-        double weight = Double.parseDouble(view.getCard1().getWeightField().getText());
-        int age = Integer.parseInt(view.getCard1().getAgeField().getText());
-        String sex = view.getCard1().getSexField();
-
-        double timeMinutes = a.getTotalTime();
-        CalorieCalculator calc;
-
-        if (view.getCard2().isHeartRateMethodSelected()) {
-            calc = new CalorieCalculator(sex, age, weight, timeMinutes, a.getAvgHeartRate());
-        } else {
-            METValuesHashMap metMap = new METValuesHashMap();
-            double met = metMap.get(a.getSport().trim());
-            calc = new CalorieCalculator(met, weight, timeMinutes);
-        }
-
-        return calc.getCalories();
-    }
-
 
 }
