@@ -9,16 +9,26 @@ public class OutputCard extends JPanel {
     private JTable Table;
     private DefaultTableModel tableModel;
     private JButton loadBtn = new JButton("Load your TCX files");
+    private JButton addActivity = new JButton("Add Activity");
+    private JButton showDailyAchivement = new JButton("Daily Goal Achievement");
 
     public OutputCard(){
+        this.setLayout(new BorderLayout());
         JPanel tableWrapper = new JPanel(new BorderLayout());;
         initTable(tableWrapper);
         this.add(tableWrapper, BorderLayout.CENTER);
 
-        JPanel bottomPanel3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bottomPanel3.add(loadBtn);
-        this.add(bottomPanel3, BorderLayout.SOUTH);
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.add(loadBtn);
+        bottomPanel.add(addActivity);
+        bottomPanel.add(showDailyAchivement);
+        this.add(bottomPanel, BorderLayout.SOUTH);
+
     }
+
+    public JButton getShowDailyAchivement() { return showDailyAchivement; }
+
+    public JButton getAddActivity() { return addActivity; }
 
     public JButton getLoadBtn() { return loadBtn; }
 

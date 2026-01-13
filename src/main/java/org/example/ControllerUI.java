@@ -2,6 +2,7 @@ package org.example;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -33,6 +34,46 @@ public class ControllerUI {
             }
         });
 
+        view.getCard3().getShowDailyAchivement().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String report = "--- Daily Goal not provided ---\n\n";
+                if(wantsDailyGoal){
+                    report = "--- Daily Goal Report ---\n\n";
+                    if(!activities.isEmpty()) {
+                        DailyGoalAchievementLogic data = new DailyGoalAchievementLogic();
+                        data.isDailyGoalAchieved(activities, caloriesList, dailyGoalMap);
+                        double goal = Double.parseDouble(view.getCard1().getGoalField().getText());
+
+                        for(HashMap.Entry<String, Double> entry : dailyGoalMap.entrySet()) {
+                            String date = entry.getKey(); // From Activity.java
+                            double total = entry.getValue();
+
+                            report += "Date: " + date + "\n";
+                            report += "Total: " + total + " kcal\n";
+
+                            if (total >= goal) {
+                                report += "Status: Goal Achieved!\n";
+                            } else {
+                                double remaining = goal - total;
+                                report += "Status: " + remaining + " kcal remaining\n";
+                            }
+                            report += "--------------------------\n";
+                        }
+                    } else {
+                        report = "No data provided yet!";
+                    }
+
+                }
+                JTextArea textArea = new JTextArea(report);
+                textArea.setEditable(false);
+
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setPreferredSize(new Dimension(100,300));
+
+                JOptionPane.showMessageDialog(null, scrollPane, "Daily Achievements", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
         view.getNext1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +88,7 @@ public class ControllerUI {
             }
         });
 
-        view.getAddActivity().addActionListener(new ActionListener() {
+        view.getCard3().getAddActivity().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addActivityData();
@@ -119,7 +160,11 @@ public class ControllerUI {
 
                 Activity manualActivity = new Activity(sport, dist, time, speed, pace, hr, date);
                 activities.add(manualActivity);
-                //Refresh table, add the new manually added activity.
+
+                if (caloriesList == null) {
+                    caloriesList = new ArrayList<>();
+                }
+                caloriesList.add(calorieCalculatorUI.calculateCaloriesForGUI(manualActivity, view));
                 refreshTable();
 
             }catch(NumberFormatException ex){

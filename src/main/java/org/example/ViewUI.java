@@ -14,7 +14,6 @@ public class ViewUI extends JFrame {
 
     private JButton next1 = new JButton("Next");
     private JButton next2 = new JButton("Next");
-    private JButton addActivity = new JButton("Add Activity");
 
     private Font labelFont = new Font("SansSerif", Font.BOLD, 20);
     private Font desciptionFont = new Font("SansSerif", Font.PLAIN, 15);
@@ -64,11 +63,6 @@ public class ViewUI extends JFrame {
         JPanel inputWrapper3 = new JPanel(new BorderLayout());
         inputWrapper3.add(Card3, BorderLayout.CENTER);
 
-        JPanel bottomPanel4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        bottomPanel4.add(addActivity);
-        inputWrapper3.add(bottomPanel4, BorderLayout.SOUTH);
-
-
         mainContainer.add(inputWrapper, "PROFILE");
         mainContainer.add(inputWrapper2, "FORMULA");
         mainContainer.add(inputWrapper3, "RESULTS");
@@ -78,8 +72,6 @@ public class ViewUI extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-    public JButton getAddActivity() { return addActivity; }
 
     public JButton getNext1() { return next1; }
 
