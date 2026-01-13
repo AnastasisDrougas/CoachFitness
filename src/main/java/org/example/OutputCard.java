@@ -25,7 +25,7 @@ public class OutputCard extends JPanel {
     public DefaultTableModel getTableModel() { return tableModel; }
 
     public void initTable(JPanel panel) {
-        String[] columns = {"Sport", "Distance (m)", "Time (min)", "Avg HR (bpm)","Avg Speed (km/h)", "Calories"};
+        String[] columns = {"Sport", "Distance(m)", "Time(min)", "Avg HR(bpm)","Avg Speed(km/h)","Avg Pace(min/km)","Date", "Calories"};
         tableModel = new DefaultTableModel(columns, 0);
         Table = new JTable(tableModel);
 
@@ -33,7 +33,7 @@ public class OutputCard extends JPanel {
         panel.setBorder(new EmptyBorder(20, 20, 20, 20)); // padding from edges
 
         JScrollPane scrollPane = new JScrollPane(Table);
-        scrollPane.setPreferredSize(new Dimension(500, 300)); // make table smaller if needed
+        scrollPane.setPreferredSize(new Dimension(600, 300)); // make table smaller
         panel.add(scrollPane, BorderLayout.CENTER);
     }
 

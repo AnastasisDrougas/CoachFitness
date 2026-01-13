@@ -4,6 +4,11 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class ControllerUI {
@@ -69,6 +74,7 @@ public class ControllerUI {
         JTextField timeField = new JTextField(5);
         JTextField hrField = new JTextField(5);
         JTextField speedField = new JTextField(5);
+        JTextField dateField = new JTextField(5);
 
         JPanel addActivityPanel = new JPanel();
         addActivityPanel.setLayout(new BoxLayout(addActivityPanel, BoxLayout.Y_AXIS));
@@ -82,6 +88,8 @@ public class ControllerUI {
         addActivityPanel.add(hrField);
         addActivityPanel.add(new JLabel("Avg Speed Rate (km/h):"));
         addActivityPanel.add(speedField);
+        addActivityPanel.add(new JLabel("Date (YYYY-MM-DD):"));
+        addActivityPanel.add(dateField);
 
         //Open dialog for manual addition of activities.
         int result = JOptionPane.showConfirmDialog(null, addActivityPanel, "Enter Manual Activity Details", JOptionPane.OK_CANCEL_OPTION);
@@ -93,6 +101,9 @@ public class ControllerUI {
                 double time = Double.parseDouble(timeField.getText());
                 int hr = Integer.parseInt(hrField.getText());
                 double speed =  Double.parseDouble(speedField.getText());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(dateField.getText(), formatter);
+
                 if(sport.isEmpty()){
                     throw new IllegalArgumentException("Please enter the sports field!");
                 }
@@ -100,7 +111,7 @@ public class ControllerUI {
                     throw new IllegalArgumentException("Please enter valid information!");
                 }
 
-                Activity manualActivity = new Activity(sport, dist, time, speed, hr);
+                Activity manualActivity = new Activity(sport, dist, time, speed, hr, date);
                 activities.add(manualActivity);
                 //Refresh table, add the new manually added activity.
                 refreshTable();
@@ -109,6 +120,8 @@ public class ControllerUI {
                 JOptionPane.showMessageDialog(null, "Please enter valid information", "Input Error", JOptionPane.ERROR_MESSAGE);
             }catch(IllegalArgumentException ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
+            }catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(null, "Date must be YYYY-MM-DD!", "Date Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -132,7 +145,19 @@ public class ControllerUI {
         view.getCard3().getTableModel().setRowCount(0);
         for(int i = 0; i < activities.size(); i++) {
             Activity a = activities.get(i);
-            Object[] row = {a.getSport(), a.getTotalDistance(), a.getTotalTime(), a.getAvgHeartRate(),a.getAvgSpeed(),caloriesList.get(i)};
+
+            String formatedDistance = String.format("%.2f", a.getTotalDistance());
+            String formatedSpeed = "N/A";
+            String formatedCalories = String.format("%.2f", caloriesList.get(i));
+            String formatedTime = String.format("%.2f", a.getTotalTime());
+            String formatedHr = String.format("%.2f", a.getAvgHeartRate());
+            String formatedAvgPace = "N/A";
+            if(!a.getSport().equals("Biking")){
+                formatedAvgPace = String.format("%.2f", a.getAvgPace());
+            } else {
+                formatedSpeed = String.format("%.2f", a.getAvgSpeed());
+            }
+            Object[] row = {a.getSport(), formatedDistance,formatedTime ,formatedHr ,formatedSpeed,formatedAvgPace,a.getDate(),formatedCalories};
             view.getCard3().getTableModel().addRow(row);
         }
     }
@@ -191,7 +216,19 @@ public class ControllerUI {
         //For each activity:
         for (Activity a : activities) {
             double calories = calorieCalculatorUI.calculateCaloriesForGUI(a, view);
-            Object[] row = {a.getSport(), a.getTotalDistance(), a.getTotalTime(), a.getAvgHeartRate(),a.getAvgSpeed(), calories};
+
+            String formatedDistance = String.format("%.2f", a.getTotalDistance());
+            String formatedSpeed = "N/A";
+            String formatedCalories = String.format("%.2f", calories);
+            String formatedTime = String.format("%.2f", a.getTotalTime());
+            String formatedHr = String.format("%.2f", a.getAvgHeartRate());
+            String formatedAvgPace = "N/A";
+            if(!a.getSport().equals("Biking")){
+                formatedAvgPace = String.format("%.2f", a.getAvgPace());
+            } else {
+                formatedSpeed = String.format("%.2f", a.getAvgSpeed());
+            }
+            Object[] row = {a.getSport(), formatedDistance,formatedTime ,formatedHr ,formatedSpeed,formatedAvgPace,a.getDate(),formatedCalories};
             view.getCard3().getTableModel().addRow(row);
         }
     }

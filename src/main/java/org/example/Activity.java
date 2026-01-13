@@ -2,6 +2,12 @@ package org.example;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -14,6 +20,7 @@ public class Activity {
 
     private ArrayList<Laps> laps;
 
+    private LocalDate date;
     private double totalDistance;
     private double avgHeartRate;
     private double totalTime;
@@ -34,6 +41,7 @@ public class Activity {
     public Activity(Node node) {
         Element activityElement = (Element) node;
         sport = activityElement.getAttribute("Sport");
+        readDate(activityElement);
         ArrayListConverter<Laps> converter =
             new ArrayListConverter<>(
                 activityElement.getElementsByTagName("Lap"),
@@ -48,12 +56,13 @@ public class Activity {
         initiator();
     }
 
-    public Activity(String sport, double dist, double time,double speed, int hr) {
+    public Activity(String sport, double dist, double time,double speed, int hr, LocalDate date) {
         this.sport = sport;
         this.totalDistance = dist;
         this.totalTime = time;
         this.avgHeartRate = hr;
         this.avgSpeed = speed;
+        this.date = date;
     }
 
     private void initiator(){
@@ -87,35 +96,23 @@ public class Activity {
 
     }
 
-    public double getAvgHeartRate() {
-        return avgHeartRate;
-    }
+    public double getAvgHeartRate() { return avgHeartRate; }
 
-    public double getTotalDistance() {
-        return totalDistance;
-    }
+    public double getTotalDistance() { return totalDistance; }
 
-    public String getSport() {
-        return sport;
-    }
+    public String getSport() {return sport; }
 
-    public double getTotalTime() {
-        return totalTime;
-    }
+    public double getTotalTime() { return totalTime; }
 
-    public double getAvgSpeed() {
-        return avgSpeed;
-    }
+    public double getAvgSpeed() { return avgSpeed; }
 
-    public double getAvgPace() {
-        return avgPace;
-    }
+    public double getAvgPace() { return avgPace; }
 
-    public double getMaxPace() {
-        return maxPace;
-    }
+    public double getMaxPace() { return maxPace; }
 
     public double getMinPace() {return minPace; }
+
+    public LocalDate getDate() { return date; }
 
     public ArrayList<Laps> getLaps() {
         ArrayList<Laps> list = new ArrayList<Laps>();
@@ -123,5 +120,21 @@ public class Activity {
             list.add(e);
         }
         return list;
+    }
+
+    private void readDate(Element element){
+        NodeList idList = element.getElementsByTagName("Id");
+        if (idList.getLength() > 0) {
+            String idStr = idList.item(0).getTextContent();
+            if (!idStr.isEmpty()) {
+                try {
+                    date = Instant.parse(idStr)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
+                } catch (DateTimeParseException e) {
+                    // ignore or log invalid TCX
+                }
+            }
+        }
     }
 }
