@@ -3,7 +3,14 @@ package org.example;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
 
+/**
+ * Second card, lets the user add personal data.
+ */
 public class InputCard extends JPanel {
 
     private  JTextField weightField = new JTextField(5);

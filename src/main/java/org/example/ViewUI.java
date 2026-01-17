@@ -1,14 +1,20 @@
 package org.example;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
+
+/**
+ * GUI, everything that the user sees.
+ */
 
 public class ViewUI extends JFrame {
     private CardLayout cardLayout = new CardLayout();
     private JPanel mainContainer;
-    private WelcomCard Card0;
+    private WelcomeCard Card0;
     private InputCard Card1;
     private FormulaCard Card2;
     private OutputCard Card3;
@@ -40,7 +46,7 @@ public class ViewUI extends JFrame {
         mainContainer = new JPanel(cardLayout);
 
         //CARD 0: Welcoming window
-        Card0 = new WelcomCard();
+        Card0 = new WelcomeCard();
         JPanel inputWrapper = new LogoPanel(logo, true);
         inputWrapper.setLayout(new BorderLayout());
 

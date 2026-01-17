@@ -6,6 +6,21 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
+
+/**
+ * Fourth card, shows the:
+ * Stats, calories burned.
+ * With a decorator adds new buttons to the layout such as:
+ * Load TCX Files.
+ * Add Activity (manually).
+ * HR Zone evaluation.
+ * VO2Max evaluation.
+ */
+
 public class OutputCard extends JPanel {
     private JTable Table;
     private DefaultTableModel tableModel;

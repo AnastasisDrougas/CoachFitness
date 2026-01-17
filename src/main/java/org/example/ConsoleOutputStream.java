@@ -10,7 +10,6 @@ import java.util.ArrayList;
 /**
  * Console Output. Prints user's statistics in the terminal.
  */
-
 public class ConsoleOutputStream {
     private ArrayList<Activity> activities;
     private ArrayList<String> args;

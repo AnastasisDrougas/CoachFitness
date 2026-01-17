@@ -11,6 +11,16 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
+
+/**
+ * Controller class, connects with the GUI/View.
+ * Contains, listeners and their actions.
+ */
+
 public class ControllerUI {
     private ViewUI view;
     private ArrayList<Activity> activities = new ArrayList<>();
@@ -25,44 +35,52 @@ public class ControllerUI {
         attachListeners();
     }
 
+    //Attach listeners method.
     private void attachListeners(){
-        //Listener for loading .tcx files.
+
+        //Listener for loading .tcx files button (Output Card).
         view.getCard3().getLoadBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                chooseFileAcition();
+                chooseFileAction();
             }
         });
 
+        //Listener for showing VO2Max button (Output Card).
         view.getCard3().getShowVO2max().addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { vo2maxButtonAcition(); }
+            public void actionPerformed(ActionEvent e) { vo2maxButtonAction(); }
         });
 
+        //Listener for showing HR Zone button (Output Card).
         view.getCard3().getShowZone().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { zoneEvaluationAction(); }
         });
 
+        //Listener for showing if the daily goal was achieved button (Output Card).
         view.getCard3().getShowDailyAchivement().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dailyGoalButtonAcition();
+                dailyGoalButtonAction();
             }
         });
 
+        //Listener for the start button (Welcome Card).
         view.getStartButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { startButtonAction(); }
         });
 
+        //Listener for moving to Card2 button (Input Card).
         view.getNext1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                next1ButtonAcition();
+                next1ButtonAction();
             }
         });
 
+        //Listener for moving to Card3 button (Formula Card).
         view.getNext2().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,6 +88,7 @@ public class ControllerUI {
             }
         });
 
+        //Listener for letting user add manual activities button (Output Card).
         view.getCard3().getAddActivity().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,22 +96,25 @@ public class ControllerUI {
             }
         });
 
+        //Listener for letting user press enter after typing the weight value to continue (Input Card).
         view.getCard1().getWeightField().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                goNextAcition(view.getCard1().getWeightField());
+                goNextAction(view.getCard1().getWeightField());
             }
         });
 
+        //Listener for letting user press enter after typing the age value to continue (Input Card).
         view.getCard1().getAgeField().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                goNextAcition(view.getCard1().getAgeField());
+                goNextAction(view.getCard1().getAgeField());
             }
         });
         //TODO
     }
 
+    //Add Activity, listener action.
     private void addActivityDataAcition() {
         JTextField sportField = new JTextField(10);
         JTextField distanceField = new JTextField(5);
@@ -133,6 +155,7 @@ public class ControllerUI {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate date = LocalDate.parse(dateField.getText(), formatter);
 
+                //Check if the data provided sre correct.
                 if(sport.isEmpty()){
                     throw new IllegalArgumentException("Please enter the sports field!");
                 }
@@ -159,7 +182,8 @@ public class ControllerUI {
         }
     }
 
-    private void dailyGoalButtonAcition(){
+    //Daily Goal, listener action.
+    private void dailyGoalButtonAction(){
         String report = "--- Daily Goal not provided ---\n\n";
         if(wantsDailyGoal){
             report = "--- Daily Goal Report ---\n\n";
@@ -188,10 +212,7 @@ public class ControllerUI {
             } else {
                 report = "No data provided yet!";
             }
-
         }
-
-
         JTextPane textPane = new JTextPane();
         textPane.setText(report);
         textPane.setEditable(false);
@@ -205,7 +226,8 @@ public class ControllerUI {
         JOptionPane.showMessageDialog(null, scrollPane, "Daily Achievements", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void vo2maxButtonAcition(){
+    //VO2 Max, listener action.
+    private void vo2maxButtonAction(){
         String evaluation;
         double vo2Max = 0;
         double cal = 0;
@@ -213,9 +235,7 @@ public class ControllerUI {
         double totalTime = 0;
         double rhr = 0;
 
-
         String report = "--- VO2 Max Evaluation ---\n\n";
-
         if(!activities.isEmpty()) {
             for(int i = 0; i < activities.size(); i++) { totalTime += activities.get(i).getTotalTime(); }
 
@@ -238,7 +258,6 @@ public class ControllerUI {
                     return;
                 }
             }
-
             VO2max vo2maxObj = new VO2max(age, rhr, totalTime);
             vo2maxObj.calculateCalories(Double.parseDouble(view.getCard1().getWeightField().getText()));
             vo2maxObj.evaluate(view.getCard1().getSexField());
@@ -265,14 +284,14 @@ public class ControllerUI {
         scrollPane.setBorder(null);
 
         JOptionPane.showMessageDialog(null, scrollPane, "VO2max", JOptionPane.INFORMATION_MESSAGE);
-
     }
 
-    private void chooseFileAcition() {
+    //Choose file, listener action.
+    private void chooseFileAction() {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(true);
 
-        //filter only XML files
+        //filter only XML files.
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TCX Files", "tcx");
         chooser.setFileFilter(filter);
         chooser.setAcceptAllFileFilterUsed(false);
@@ -305,7 +324,11 @@ public class ControllerUI {
         }
     }
 
-    private void next1ButtonAcition(){
+    //Go from Card0 to Card1, listener action
+    private void startButtonAction(){ view.showProfile(); }
+
+    //Go from Card1 to Card2, listener action
+    private void next1ButtonAction(){
         try {
             String check = view.getCard1().getGoalField().getText();
             double goal = 0;
@@ -332,8 +355,8 @@ public class ControllerUI {
         }
     }
 
-    private void startButtonAction(){ view.showProfile(); }
 
+    //Go from Card1 to Card2, listener action
     private void next2ButtonAcition() {
         try {
             if (!view.getCard2().getHrButton().isSelected() && !view.getCard2().getMetButton().isSelected()) {
@@ -345,7 +368,8 @@ public class ControllerUI {
         }
     }
 
-    private void goNextAcition(JTextField cur){
+    //Press enter to continue, listener action.
+    private void goNextAction(JTextField cur){
         if(cur == view.getCard1().getWeightField()) {
             view.getCard1().getAgeField().requestFocusInWindow();
         } else {
@@ -353,7 +377,9 @@ public class ControllerUI {
         }
     }
 
+    //Update stats after new activity added.
     private ArrayList<Double> updateStats(){
+
         //For each Activity:
         ArrayList<Double> activityCalories = new ArrayList<>();
         for (Activity a : activities) {
@@ -384,11 +410,10 @@ public class ControllerUI {
         }
     }
 
+    //HR Zones, listener action.
     private void zoneEvaluationAction(){
         int age = Integer.parseInt(view.getCard1().getAgeField().getText());
         double weight = Double.parseDouble(view.getCard1().getWeightField().getText());
-
-
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         if(activities.isEmpty()){
@@ -401,7 +426,6 @@ public class ControllerUI {
 
             contentPanel.add(textPane);
         }
-
         for (Activity activity : activities) {
             ZoneEvaluation zone = new ZoneEvaluation(age, weight, activity);
             zone.evaluation();
@@ -411,7 +435,6 @@ public class ControllerUI {
             JTextPane retval = view.getCard3().ZonePopUpWindow(activity.getSport(), times, cal);
             contentPanel.add(retval);
         }
-
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setOpaque(false);
         scrollPane.setPreferredSize(new Dimension(350,250));
@@ -419,5 +442,4 @@ public class ControllerUI {
 
         JOptionPane.showMessageDialog(null, scrollPane, "Zone Evaluation", JOptionPane.INFORMATION_MESSAGE);
     }
-
 }

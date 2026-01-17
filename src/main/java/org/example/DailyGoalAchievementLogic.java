@@ -5,6 +5,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
+
+/**
+ * HashMap for storing total calories burned for each day.
+ * Key -> Date of the activity.
+ * Value -> calories burned on this date.
+ */
+
 public class DailyGoalAchievementLogic {
     private ArrayList<LocalDate> datesList = new ArrayList<>();
     private ArrayList<Double> calorieSums = new ArrayList<>();

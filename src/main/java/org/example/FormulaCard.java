@@ -4,6 +4,16 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
+
+/**
+ * Third card, shows the two calorie calculating options,
+ * with a radio button.
+ */
+
 public class FormulaCard extends JPanel{
 
     private JRadioButton hrButton = new JRadioButton("Advanced Method");

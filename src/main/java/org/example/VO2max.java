@@ -1,5 +1,16 @@
 package org.example;
 
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
+
+/**
+ * Computes VO2 Max.
+ * Evaluates VO2Max.
+ * Shows calories burned based on VO2 Max.
+ */
+
 public class VO2max {
     private int age;
     private double rhr;

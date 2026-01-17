@@ -5,13 +5,20 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * @author Anastasis Drougas
+ * @author Angjelo Hoxhaj
+ */
+
 public class ZoneEvaluation {
     private int age;
     private double weight;
     private Activity activity;
 
+    //Static values.
     private final static double []ceff = {0.07, 0.10, 0.13, 0.16, 0.20};
     private final static double []zones = {0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+
     private double []zonesBPM = new double[6];
     private double []timestamps = new double[5];
 
@@ -21,7 +28,7 @@ public class ZoneEvaluation {
         this.weight = weight;
         this.activity = activity;
 
-        for (int i=0; i<6; i++){
+        for (int i=0; i<5; i++){
             this.zonesBPM[i] = zones[i] * mhr();
         }
     }
@@ -62,6 +69,7 @@ public class ZoneEvaluation {
             }
         }
     }
+
     private int mhr(){ return 220 - age; }
 
     private long timeDiff(int i, Tracks track){
