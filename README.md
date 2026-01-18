@@ -1,4 +1,4 @@
-# CoachFitness
+# Fit-Buddy
 
 # A Java application for analyzing fitness activities from TCX files.  
 - It reads and processes activity data—including Laps, Trackpoints, Distance, Time, Speed, etc.
@@ -87,7 +87,7 @@
     - Verifies dates are entered in the correct `YYYY-MM-DD` format.  
 
 
-  ## Prerequisites
+# Prerequisites
 ### Before running the code, make sure you have installed:
 - [Java JDK](https://www.oracle.com/java/technologies/javase-downloads.html) (version 8 or newer)
 - [Maven](https://maven.apache.org/)
